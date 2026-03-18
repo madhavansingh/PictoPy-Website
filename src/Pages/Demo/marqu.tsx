@@ -1,8 +1,10 @@
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ImageIcon, FolderSync, Search, Code } from "lucide-react";
 
 export default function TechMarquee() {
+  const shouldReduceMotion = useReducedMotion();
+
   const technologies = [
     {
       text: "PictoAI",
@@ -33,14 +35,18 @@ export default function TechMarquee() {
       transition-shadow duration-500">
       <motion.div
         className="flex w-max items-center"
-        initial={{ x: '-50%' }}
-        animate={{ x: '0%' }}
-        transition={{
-          duration: 45,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop"
-        }}
+        initial={shouldReduceMotion ? undefined : { x: "-50%" }}
+animate={shouldReduceMotion ? { x: 0 } : { x: "0%" }}
+transition={
+  shouldReduceMotion
+    ? { duration: 0 }
+    : {
+        duration: 45,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+      }
+}
       >
         {duplicatedTechnologies.map((tech, index) => (
           <div
